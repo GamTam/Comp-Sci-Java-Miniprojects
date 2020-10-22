@@ -53,9 +53,9 @@ public class Hangman {
         song.stopSong();
         System.out.print("\n\n");
 
-        System.out.println("Now playing:\nMegalovania | UNDERTALE\n");
+        /* System.out.println("Now playing:\nMegalovania | UNDERTALE\n");
         song.song = "megalovania";
-        Song.playSong();
+        Song.playSong(); */
 
         System.out.print("For next song, press enter.");
         scan.nextLine();
