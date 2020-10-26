@@ -1,0 +1,22 @@
+song.song = "cornered";
+song.loopStart = 287687;
+
+song.song = "grand finale";
+song.loopStart = 407547;
+song.loopEnd = 4070802;
+
+song.song = "antasma fight";
+song.loopStart = 6731;
+song.loopEnd = 3574966;
+
+song.song = "swsh gym";
+song.loopStart = 759108;
+song.loopEnd = 4161508;
+
+song.song = "diggy diggy hole";
+song.loopStart = 830720;
+song.loopEnd = 9901440;
+
+song.song = "Snif City";
+song.loopStart = 70081;
+song.loopEnd = 3910172;
