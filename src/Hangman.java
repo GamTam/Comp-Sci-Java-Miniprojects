@@ -1,3 +1,8 @@
+// Dev: Lucas DaCambra
+// Course Code: ICS4UI-02
+// Date Written: 10/10/2020
+// Description: The program plays hangman with the user.
+
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
