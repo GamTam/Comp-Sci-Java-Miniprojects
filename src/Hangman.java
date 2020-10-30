@@ -20,6 +20,12 @@ public class Hangman {
 
     public static void main(String[] args) throws InterruptedException, IOException {
         soundtrack.setDefaults();
+        soundtrack.addGuessSong("somnom woods");
+        soundtrack.addGuessSong("grand finale");
+        soundtrack.addGuessSong("cornered");
+        soundtrack.addGuessSong("diggy diggy hole");
+        soundtrack.addGuessSong("pigstep");
+
         bannedChars.add(" ");
         bannedChars.add("-");
         bannedChars.add(":");
@@ -67,10 +73,10 @@ public class Hangman {
         }
 
         Random rand = new Random();
-        int randInt = rand.nextInt(4);
+        int randInt = rand.nextInt(soundtrack.guessSongs.size() - 1);
 
         textBox("Press Enter to continue", false);
-        scan.nextLine();
+        scan = new Scanner(System.in);
         scan.nextLine();
         System.out.println();
 
@@ -80,22 +86,16 @@ public class Hangman {
         textBox("If at any point you submit more than one character as your guess,\nit will be assumed to be your final answer.", true);
         textBox("If your final answer is incorrect, then you lose the game, regardless\nof how many lives you have remaining.", true);
         wait(1.0);
-        textBox("Now, good luck!\nYou have 5 incorrect guesses in total.", true);
+        textBox("Now, good luck!\nYou have 5 incorrect guesses in total.\n", true);
         wait(0.5);
 
-        if (randInt == 0) {
-            soundtrack.guessOne.play();
-        } else if (randInt == 1) {
-            soundtrack.guessTwo.play();
-        } else if (randInt == 2) {
-            soundtrack.guessThree.play();
-        } else {
-            soundtrack.guessFour.play();
-        }
+        textBox("Press Enter to continue", false);
 
-        clsf();
-        textBox("Done!", true);
-        cls();
+        scan = new Scanner(System.in);
+        scan.nextLine();
+        System.out.println();
+
+        soundtrack.guessSongs.get(randInt).play();
 
         guessLoop(guessWord);
 
@@ -425,6 +425,9 @@ class Soundtrack {
     Song victory = new Song();
     Song defeat = new Song();
 
+    List<Song> guessSongs = new ArrayList<>();
+
+
     void setDefaults() throws IOException {
         menu.update("musee");
         guessOne.update("rose battle");
@@ -433,6 +436,18 @@ class Soundtrack {
         guessFour.update("fawful castle");
         victory.update("victory ss");
         defeat.update("darkness falls");
+
+        guessSongs.add(guessOne);
+        guessSongs.add(guessTwo);
+        guessSongs.add(guessThree);
+        guessSongs.add(guessFour);
+    }
+
+    void addGuessSong(String song) throws IOException {
+        Song sng = new Song();
+        sng.update(song);
+
+        guessSongs.add(sng);
     }
 
     void stop() {
@@ -443,6 +458,10 @@ class Soundtrack {
         guessFour.stop();
         victory.stop();
         defeat.stop();
+
+        for (Song stop: guessSongs) {
+            stop.stop();
+        }
     }
 }
 
