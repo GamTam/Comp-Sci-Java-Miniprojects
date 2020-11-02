@@ -25,11 +25,15 @@ public class Hangman {
         soundtrack.addGuessSong("cornered");
         soundtrack.addGuessSong("diggy diggy hole");
         soundtrack.addGuessSong("pigstep");
+        soundtrack.addGuessSong("K.K. Cornered");
+        soundtrack.addGuessSong("K.K. roof");
+        soundtrack.addGuessSong("K.K.'s mansion");
 
         bannedChars.add(" ");
         bannedChars.add("-");
         bannedChars.add(":");
         bannedChars.add("+");
+        bannedChars.add("–");
 
         soundtrack.menu.play();
 
