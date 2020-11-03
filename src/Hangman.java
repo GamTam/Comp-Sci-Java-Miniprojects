@@ -28,6 +28,8 @@ public class Hangman {
         soundtrack.addGuessSong("K.K. Cornered");
         soundtrack.addGuessSong("K.K. roof");
         soundtrack.addGuessSong("K.K.'s mansion");
+        soundtrack.addGuessSong("megalovania");
+        soundtrack.addGuessSong("origami king boss");
 
         bannedChars.add(" ");
         bannedChars.add("-");
@@ -433,7 +435,7 @@ class Soundtrack {
 
 
     void setDefaults() throws IOException {
-        menu.update("musee");
+        menu.update("megalovania");
         guessOne.update("rose battle");
         guessTwo.update("fortune island");
         guessThree.update("temple of shrooms");
