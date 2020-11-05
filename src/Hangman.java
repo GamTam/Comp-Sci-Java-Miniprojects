@@ -14,6 +14,7 @@ import java.util.Scanner;
 import javax.sound.sampled.*;
 
 public class Hangman {
+    // Variables
     static Soundtrack soundtrack = new Soundtrack();
     static Scanner scan = new Scanner(System.in);
     static List<String> bannedChars = new ArrayList<>();
@@ -110,6 +111,7 @@ public class Hangman {
         scan.nextLine();
     }
 
+    // Chooses a word from the text document
     public static String getWordFromTxt() throws IOException {
         String word = "";
 
@@ -145,18 +147,21 @@ public class Hangman {
         return word;
     }
 
+    // Prints a bunch of blank lines
     public static void cls() {
         for(int i = 0; i < 2000000; i++) {
             System.out.println();
         }
     }
 
+    // Prints a bunch of numbers
     public static void clsf() {
         for(int i = 0; i <= 5723974; i++) {
             System.out.println("Simulating... " + i + "/5723974");
         }
     }
 
+    // Pauses processing
     public static void wait(Double seconds) throws InterruptedException {
         Thread.sleep(Math.round(seconds * 1000));
     }
@@ -254,6 +259,7 @@ public class Hangman {
         return str;
     }
 
+    // Main gameplay loop
     public static void guessLoop(String word) throws InterruptedException {
         String blankWord = "";
         String guessedChar = "";
@@ -382,6 +388,7 @@ class Song {
         }
     }
 
+    // Plays song
     public void play() {
         if (clip != null) {
             if (clip.isActive()) {
@@ -413,6 +420,7 @@ class Song {
         }
     }
 
+    // Stops song
     public void stop() {
         if (clip != null) {
             if (clip.isActive()) {
@@ -422,6 +430,7 @@ class Song {
     }
 }
 
+// The soundtrack for the program
 class Soundtrack {
     Song menu = new Song();
     Song guessFour = new Song();
@@ -433,9 +442,9 @@ class Soundtrack {
 
     List<Song> guessSongs = new ArrayList<>();
 
-
+    // Sets default songs
     void setDefaults() throws IOException {
-        menu.update("megalovania");
+        menu.update("musee");
         guessOne.update("rose battle");
         guessTwo.update("fortune island");
         guessThree.update("temple of shrooms");
@@ -449,6 +458,7 @@ class Soundtrack {
         guessSongs.add(guessFour);
     }
 
+    // Adds song to guess list
     void addGuessSong(String song) throws IOException {
         Song sng = new Song();
         sng.update(song);
@@ -456,6 +466,7 @@ class Soundtrack {
         guessSongs.add(sng);
     }
 
+    // Stops playing all song
     void stop() {
         menu.stop();
         guessOne.stop();

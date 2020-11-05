@@ -472,7 +472,7 @@ Go! K.K. Rider - Animal Crossing: New Horizons
 Boss Fight - Pikmin 2
 Pretend You're Happy - Jay Foreman
 Wide Putin Walking - ???
-Breakout - 3D Dot Game Heroes
+Breakout - 3D Dot GameTest.Game Heroes
 Dededestroyer Z - Kirby Battle Royale
 Dangerous Dinner - Kirby's Return to Dreamland
 CROWNED Medley - Kirby: Star Allies
@@ -500,7 +500,7 @@ GameCube
 Wii
 Wii U
 Nintendo Switch
-Game & Watch
+GameTest.Game & Watch
 Gameboy
 Gameboy Color
 Gameboy Advance
