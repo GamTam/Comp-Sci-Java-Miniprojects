@@ -2,20 +2,25 @@ package GameTest;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final int WIDTH = 720, HEIGHT = WIDTH / 12 * 9;
+    public static final int width = 720, height = width / 12 * 9;
 
     private Thread thread;
     private boolean running = false;
 
     private Handler handler;
+    private Random random;
 
     public Game() {
-        new Window(WIDTH, HEIGHT, "Megalovania.exe", this);
         handler = new Handler();
-        handler.addObject(new Player(0, 0, ID.Player, this));
+        random = new Random();
+
+        this.addKeyListener(new KeyInput(handler));
+        new Window(width, height, "Megalovania.exe", this);
+        handler.addObject(new Player(width / 2 - 32, height / 2 - 32, ID.Player, this));
     }
 
     public synchronized void start() {
@@ -59,7 +64,6 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
@@ -81,7 +85,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bs.getDrawGraphics();
 
         g.setColor(Color.black);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(0, 0, width, height);
         handler.render(g);
 
         g.dispose();

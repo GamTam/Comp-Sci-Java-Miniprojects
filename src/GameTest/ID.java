@@ -3,5 +3,6 @@ package GameTest;
 public enum ID {
 
     Player(),
-    Enemy()
+    Player2(),
+    Enemy();
 }

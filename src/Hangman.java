@@ -1,7 +1,7 @@
-// Dev: Lucas DaCambra
-// Course Code: ICS4UI-02
-// Date Written: 10/10/2020
-// Description: The program plays hangman with the user.
+/* Dev: Lucas DaCambra
+   Course Code: ICS4UI-02
+   Date Written: 10/10/2020
+   Description: The program plays hangman with the user. */
 
 import java.io.*;
 import java.nio.file.FileSystems;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 import javax.sound.sampled.*;
 
+// Main class
 public class Hangman {
     // Variables
     static Soundtrack soundtrack = new Soundtrack();
@@ -354,6 +355,7 @@ public class Hangman {
     }
 }
 
+// A single looping song
 class Song {
     // Variable Init
     public String name;
@@ -482,6 +484,7 @@ class Soundtrack {
     }
 }
 
+// A sound
 class Sound {
     // Variable Init
     static String sound;
