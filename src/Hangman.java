@@ -155,13 +155,6 @@ public class Hangman {
         }
     }
 
-    // Prints a bunch of numbers
-    public static void clsf() {
-        for(int i = 0; i <= 5723974; i++) {
-            System.out.println("Simulating... " + i + "/5723974");
-        }
-    }
-
     // Pauses processing
     public static void wait(Double seconds) throws InterruptedException {
         Thread.sleep(Math.round(seconds * 1000));
@@ -418,7 +411,7 @@ class Song {
                 i++;
             }
         } catch (Exception e) {
-            System.err.println("Sans Undertale");
+            System.err.println(e);
         }
     }
 

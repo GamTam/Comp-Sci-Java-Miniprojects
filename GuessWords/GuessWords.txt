@@ -500,7 +500,7 @@ GameCube
 Wii
 Wii U
 Nintendo Switch
-GameTest.Game & Watch
+Game & Watch
 Gameboy
 Gameboy Color
 Gameboy Advance

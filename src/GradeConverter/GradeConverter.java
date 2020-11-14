@@ -33,8 +33,8 @@ public class GradeConverter {
             if (!file.exists()) {
                 file.mkdirs();
             }
-            File person;
-            person = fileSelect(file, "person", "");
+
+            File person = fileSelect(file, "person", "");
 
             textBox("Now, choose which subject you wish to grade them in.\n", true);
             File gradeCategory = fileSelect(person, "subject", ".csv");
@@ -80,10 +80,20 @@ public class GradeConverter {
             }
 
             if (show) {
-                textBox(String.format("\n%2$-50s %3$-20s %4$-15s", " ", "Assesment Title", "Number Grade", "Letter Grade"), 25, true);
-                textBox(String.format("%2$-50s %3$-20s %4$-15s", " ", "---------------", "------------", "------------"), 25, true);
+                int length = 16;
                 for (int i = 1; i < grades.size() + 1; i++) {
-                    textBox(String.format("%2$-50s %3$-20s %4$-15s", " ", grades.get(i).get(0), grades.get(i).get(1), toLetter(grades.get(i).get(1))), 25, true);
+                    int tempLength = grades.get(i).get(0).length();
+                    if (tempLength > length) {
+                        length = tempLength;
+                    }
+                }
+
+                length += 20;
+
+                textBox(String.format("\n%2$-" + length + "s %3$-20s %4$-15s", " ", "Assesment Title", "Number Grade", "Letter Grade"), 25, true);
+                textBox(String.format("%2$-" + length + "s %3$-20s %4$-15s", " ", "---------------", "------------", "------------"), 25, true);
+                for (int i = 1; i < grades.size() + 1; i++) {
+                    textBox(String.format("%2$-" + length + "s %3$-20s %4$-15s", " ", grades.get(i).get(0), grades.get(i).get(1), toLetter(grades.get(i).get(1))), 25, true);
                 }
             }
 
@@ -101,6 +111,8 @@ public class GradeConverter {
         textBox("Goodbye!", false);
     }
 
+    /*pre: Storage file, Grades dictionary
+    * post: The csv file will have updated to include the data in the dictionary */
     public static void updateGrades(File file, Hashtable<Integer, List<String>> grades) throws IOException {
         FileWriter writer = new FileWriter(file);
         writer.write("Assessment,Number Grade,Letter Grade\n");
@@ -112,6 +124,8 @@ public class GradeConverter {
         writer.close();
     }
 
+    /*pre: integer
+    * post: the method returns a string based on the value of the input */
     public static String toLetter(String input) {
         int num = Integer.parseInt(input);
 
@@ -132,6 +146,8 @@ public class GradeConverter {
         }
     }
 
+    /*pre: csv file
+    * post: adds all data from the csv file into a dictionary and returns the dictionary */
     public static Hashtable<Integer, List<String>> getCSV (File file) throws IOException, InterruptedException {
         Hashtable<Integer, List<String>> table = new Hashtable<>();
 
@@ -159,6 +175,8 @@ public class GradeConverter {
         return table;
     }
 
+    /*pre: file location, the category of the file, the filetype
+    * post: returns a pre-existing or new file based on the inputs */
     public static File fileSelect(File folder, String type, String fileType) throws InterruptedException, IOException {
         int i = 1;
         Hashtable<Integer, File> people = new Hashtable<>();
@@ -194,8 +212,6 @@ public class GradeConverter {
                     File newFile = new File(folder + "/" + name);
                     if (!newFile.exists()) {
                         newFile.mkdirs();
-                        File average = new File(folder + "/" + name + "/Average.txt");
-                        average.createNewFile();
                         return (newFile);
                     } else {
                         textBox("That " + type + " is already in the database.", true);
@@ -222,7 +238,8 @@ public class GradeConverter {
         return (people.get(0));
     }
 
-    // Loops through text in string and prints one character at a time
+    /*pre: any string, the space between each letter appearing, weather or not there is a new line at the end
+    * post: the text will have been displayed to the screen one character at a time */
     public static void textBox(String text, int time, boolean newLine) throws InterruptedException {
         for (int i = 0; i < text.length() - 1; i++) {
             Thread.sleep(time);
@@ -244,12 +261,14 @@ public class GradeConverter {
         textBox(text, 25, newLine);
     }
 
-    // Pauses processing
+    /*pre: the time to wait
+    * post: the program will have stopped for the specified amount of time */
     public static void wait(Double seconds) throws InterruptedException {
         Thread.sleep(Math.round(seconds * 1000));
     }
 
-    // Continuously loops until an integer within the selected range is chosen by the user
+    /*pre: minimum and maximum selection range
+    * post: returns the user selected number */
     public static int selectInt(int min, int max) throws InterruptedException {
         int num = -17;
         scan = new Scanner(System.in);
@@ -275,15 +294,28 @@ public class GradeConverter {
         return num;
     }
 
-    // Continuously loops until a string is chosen by the user
+    /*pre: none
+     * post: returns the user selected string */
     public static String selectWord() throws InterruptedException {
         String str = "";
         scan = new Scanner(System.in);
 
         while (true) {
             try {
+                boolean allowed = true;
                 str = scan.nextLine();
-                break;
+
+                for (int i=0; i < str.length(); i++) {
+                    if (str.charAt(i) == '/' || str.charAt(i) == '\\') {
+                        allowed = false;
+                    }
+                }
+
+                if (allowed) {
+                    break;
+                }
+
+                textBox("Sorry, that is not a valid option.", true);
             } catch (InputMismatchException e) {
                 textBox("Sorry, that is not a valid option.", true);
                 scan.next();
@@ -301,12 +333,9 @@ class Sound {
 
     static Clip clip;
 
+    /*pre: none
+     * post: plays an audio file */
     public static void play() {
-        if (clip != null) {
-            if (clip.isActive()) {
-                clip.stop();
-            }
-        }
 
         try {
             // Locate file
