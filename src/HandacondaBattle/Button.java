@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
-public class Button extends GameObject{
+public class Button extends GameObject {
 
     private BufferedImage sprite;
     private File spritePath;
@@ -19,17 +19,34 @@ public class Button extends GameObject{
         Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
         spritePath = new File(path + "/sprites/" + image + ".png");
         sprite = ImageIO.read(spritePath);
+
+        center();
+    }
+
+    public  void center() {
+        x = x - sprite.getWidth() / 2;
+        y = y - sprite.getHeight() / 2;
     }
 
     public void tick() {
-
     }
 
 
     public void render(Graphics g) {
-        int realX = x - sprite.getWidth() / 2;
-        int realY = y - sprite.getHeight() / 2;
+        g.setColor(Color.gray);
+        g.drawRect(x, y, sprite.getWidth(), sprite.getHeight());
+        g.drawImage(sprite, x, y, sprite.getWidth(), sprite.getHeight(), null);
+    }
 
-        g.drawImage(sprite, realX, realY, sprite.getWidth(), sprite.getHeight(), null);
+    public void press() {
+        System.out.println("I have been pressed");
+    }
+
+    public int getWidth() {
+        return sprite.getWidth();
+    }
+
+    public int getHeight() {
+        return sprite.getHeight();
     }
 }

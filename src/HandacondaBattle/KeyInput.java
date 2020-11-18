@@ -17,6 +17,10 @@ public class KeyInput extends KeyAdapter {
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
 
+            if (tempObject.getID() == ID.SOUNDTRACK) {
+                Soundtrack sound = (Soundtrack) tempObject;
+                if (key == KeyEvent.VK_SPACE) sound.swapHeavy();
+            }
         }
     }
 

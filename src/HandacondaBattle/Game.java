@@ -1,5 +1,7 @@
 package HandacondaBattle;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
@@ -15,13 +17,17 @@ public class Game extends Canvas implements Runnable {
     private Handler handler;
     private Random random;
 
-    public Game() throws IOException {
+    public Game() throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
         handler = new Handler();
         random = new Random();
 
         this.addKeyListener(new KeyInput(handler));
-        new Window(width, height, "Rock Paper Scissors", this);
-        handler.addObject(new Button(width / 2, height / 2, ID.Button, this,"luigi"));
+        this.addMouseListener(new MouseListener(handler));
+        new Window(width, height, "Handaconda Battle", this);
+        handler.addObject(new Button(width / 2, height / 2, ID.BUTTON, this,"luigi"));
+        Soundtrack soundtrack = new Soundtrack("Snif City", "king bowser", "victory SS", "darkness falls", this);
+        handler.addObject(soundtrack);
+        soundtrack.play("game light");
     }
 
     public synchronized void start() {
@@ -89,7 +95,7 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
         new Game();
     }
 }
