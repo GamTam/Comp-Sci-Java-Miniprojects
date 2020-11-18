@@ -1,6 +1,6 @@
 package HandacondaBattle;
 
 public enum ID {
-    BUTTON(),
-    SOUNDTRACK()
+    BUTTON,
+    SOUNDTRACK
 }

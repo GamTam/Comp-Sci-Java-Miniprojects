@@ -2,6 +2,7 @@
 Dev: Lucas DaCambra
 Course Code: ICS4UI-02
 Date Written: 11/8/2020
+Name: GradeConverter
 Description: The program manages the grades for multiple people
  */
 
@@ -45,7 +46,7 @@ public class GradeConverter {
 
             if (grade <= grades.size()) {
                 textBox("What is the new grade for " + grades.get(grade).get(0) + "? ", true);
-                int newMark = selectInt(0, 100);
+                int newMark = selectInt(0, 200);
                 List list = new ArrayList();
                 list.add(grades.get(grade).get(0));
                 list.add(Integer.toString(newMark));
@@ -306,7 +307,7 @@ public class GradeConverter {
                 str = scan.nextLine();
 
                 for (int i=0; i < str.length(); i++) {
-                    if (str.charAt(i) == '/' || str.charAt(i) == '\\') {
+                    if (str.charAt(i) == '/' || str.charAt(i) == '\\' || str.charAt(i) == ':' || str.charAt(i) == '?' || str.charAt(i) == '|' || str.charAt(i) == '*' || str.charAt(i) == '"' || str.charAt(i) == '<' || str.charAt(i) == '>') {
                         allowed = false;
                     }
                 }

@@ -1,7 +1,7 @@
 package HandacondaBattle;
 
 public enum SCENE {
-    MENU(),
-    CHARSELECT(),
-    GAME()
+    MainMenu,
+    CharSelect,
+    Duel
 }

@@ -29,6 +29,15 @@ public class Button extends GameObject {
     }
 
     public void tick() {
+        x += 1;
+
+        if (x >= game.width + sprite.getWidth()) {
+            x = 0 - sprite.getWidth();
+            y += 5;
+            if (y >= game.height + (sprite.getHeight() / 2)) {
+                y = -sprite.getHeight() / 2 + 10;
+            }
+        }
     }
 
 
@@ -40,6 +49,10 @@ public class Button extends GameObject {
 
     public void press() {
         System.out.println("I have been pressed");
+    }
+
+    public boolean mouseOver(int x, int y) {
+        return  x >= this.x && x <= this.x + getWidth() && y >= this.y && y <= this.y + getHeight();
     }
 
     public int getWidth() {

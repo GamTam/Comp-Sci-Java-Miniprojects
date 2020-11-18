@@ -1,10 +1,14 @@
 package HandacondaBattle;
 
+import HandacondaBattle.Scenes.*;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
@@ -14,20 +18,24 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
 
-    private Handler handler;
+    public Handler handler;
     private Random random;
+    public Soundtrack soundtrack = new Soundtrack("Snif City", "king bowser", "victory SS", "darkness falls", this);
+
+    public SCENE scene = SCENE.MainMenu;
+    public SCENE prevScene = SCENE.MainMenu;
+
+    public SCENE getID() {
+        return scene;
+    }
 
     public Game() throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
         handler = new Handler();
         random = new Random();
 
         this.addKeyListener(new KeyInput(handler));
-        this.addMouseListener(new MouseListener(handler));
         new Window(width, height, "Handaconda Battle", this);
-        handler.addObject(new Button(width / 2, height / 2, ID.BUTTON, this,"luigi"));
-        Soundtrack soundtrack = new Soundtrack("Snif City", "king bowser", "victory SS", "darkness falls", this);
-        handler.addObject(soundtrack);
-        soundtrack.play("game light");
+        new MainMenu(this, handler, SCENE.MainMenu);
     }
 
     public synchronized void start() {
@@ -58,7 +66,11 @@ public class Game extends Canvas implements Runnable {
             lastTime = now;
 
             while (delta >= 1) {
-                tick();
+                try {
+                    tick();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 delta--;
             }
 
@@ -74,8 +86,18 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() {
-        handler.tick();
+    private void tick() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
+        if (scene != prevScene) {
+            prevScene = scene;
+
+            if (scene == SCENE.MainMenu) {
+                new MainMenu(this, handler, SCENE.MainMenu);
+            }
+        }
+
+        if (scene == SCENE.MainMenu) {
+            handler.tick();
+        }
     }
 
     private void render() {
@@ -87,7 +109,12 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.black);
+        if (scene == SCENE.MainMenu) {
+            g.setColor(Color.black);
+        } else if (scene == SCENE.CharSelect) {
+            g.setColor(Color.white);
+        }
+
         g.fillRect(0, 0, width, height);
         handler.render(g);
 

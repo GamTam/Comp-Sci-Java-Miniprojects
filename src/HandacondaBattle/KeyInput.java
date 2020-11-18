@@ -20,6 +20,7 @@ public class KeyInput extends KeyAdapter {
             if (tempObject.getID() == ID.SOUNDTRACK) {
                 Soundtrack sound = (Soundtrack) tempObject;
                 if (key == KeyEvent.VK_SPACE) sound.swapHeavy();
+                if (key == KeyEvent.VK_R) System.out.println(sound.game.getID());
             }
         }
     }
