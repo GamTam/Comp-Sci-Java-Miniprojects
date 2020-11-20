@@ -7,8 +7,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
@@ -20,7 +18,7 @@ public class Game extends Canvas implements Runnable {
 
     public Handler handler;
     private Random random;
-    public Soundtrack soundtrack = new Soundtrack("Snif City", "origami king boss", "victory SS", "darkness falls", "stabby stabby souls", this);
+    public Soundtrack soundtrack = new Soundtrack("snif city", "origami king boss", "victory SS", "darkness falls", "stabby stabby souls", this);
 
     public SCENE scene = SCENE.MainMenu;
     public SCENE prevScene = SCENE.MainMenu;
@@ -95,7 +93,7 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException, FontFormatException {
+    private void tick() throws IOException, FontFormatException {
         if (scene != prevScene) {
             prevScene = scene;
             handler.clearAll();
@@ -128,7 +126,7 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, FontFormatException {
+    public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException, FontFormatException {
         new Game();
     }
 }

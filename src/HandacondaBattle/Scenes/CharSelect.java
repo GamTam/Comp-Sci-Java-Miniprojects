@@ -10,7 +10,7 @@ import java.io.IOException;
 public class CharSelect extends Scene {
     Button luigi;
 
-    public CharSelect(Game game, Handler handler, SCENE scene) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
+    public CharSelect(Game game, Handler handler, SCENE scene) throws IOException {
         super(game, handler, scene);
 
         this.game.addMouseListener(this);

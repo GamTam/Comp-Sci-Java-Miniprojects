@@ -13,7 +13,7 @@ public class MainMenu extends Scene {
     TitleScreenChars shyGuy;
     TitleScreenChars fawful;
     TitleScreenChars sans;
-    TitleScreenChars starlow;
+    TitleScreenChars toadette;
 
     Button titleScreen;
     Button playButton;
@@ -33,7 +33,7 @@ public class MainMenu extends Scene {
         shyGuy = new TitleScreenChars(((game.width + 100) / 5) * 3, game.height / 2, 2, ID.SLIDE, game,"shy guy/title screen", 60, true);
         fawful = new TitleScreenChars((((game.width + 100) / 5) * 4), game.height / 2, 2, ID.SLIDE, game,"fawful/title screen", 60, true);
         sans = new TitleScreenChars(0, game.height / 2, 2, ID.SLIDE, game,"sans/title screen", 60, true);
-        starlow = new TitleScreenChars((((game.width + 100) / 5) * 5), game.height / 2 - 25, 2, ID.SLIDE, game,"starlow/title screen", 100, false);
+        toadette = new TitleScreenChars((((game.width + 100) / 5) * 5), game.height / 2, 2, ID.SLIDE, game,"toadette/title screen", 100, true);
 
         titleScreen = new Button(game.width / 2, 75, 2, ID.BUTTON, game,"Title Screen", false);
         playButton = new Button(game.width / 2, game.getHeight() - 125, 2, ID.BUTTON, game,"Play Game", true);
@@ -62,12 +62,10 @@ public class MainMenu extends Scene {
                 game.soundtrack.play("fawful");
             } else if (sans.mouseOver(x, y)) {
                 game.soundtrack.play("sans");
-            } else if (starlow.mouseOver(x, y)) {
-                game.soundtrack.play("starlow");
+            } else if (toadette.mouseOver(x, y)) {
+                game.soundtrack.play("toadette");
             }
         }
-
-        System.out.println(luigi.getCenterX() - sans.getCenterX());
     }
 
     public void mouseExited(MouseEvent e) {

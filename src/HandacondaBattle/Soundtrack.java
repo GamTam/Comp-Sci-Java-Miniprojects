@@ -26,7 +26,7 @@ public class Soundtrack extends GameObject{
         soundtrack.put("shy guy", new Song("snifit or whiffit"));
         soundtrack.put("fawful", new Song("fawful is there"));
         soundtrack.put("sans", new Song("megalovania"));
-        soundtrack.put("starlow", new Song("grand finale"));
+        soundtrack.put("toadette", new Song("where's toad"));
     }
 
     public void play(String song) {
