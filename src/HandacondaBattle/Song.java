@@ -55,9 +55,13 @@ class Song implements Runnable {
 
     // Plays song
     public void play() {
-
         try {
-            clip.loop(-1);
+            if (!clip.isActive()) {
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(0);
+                clip.setFramePosition(0);
+                clip.loop(-1);
+            }
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -73,10 +77,9 @@ class Song implements Runnable {
     }
 
     public void fadeOut() {
-        if (!running) {
+        if (!running && clip.isActive()) {
             targetGain = -50;
             Thread t = new Thread(this);
-            System.out.println(t);
             t.start();
         } else {
             stop();
@@ -94,7 +97,6 @@ class Song implements Runnable {
             }
             targetGain = 0;
             Thread t = new Thread(this);
-            System.out.println(t);
             t.start();
         } else {
             gainControl.setValue(targetGain);

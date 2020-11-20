@@ -18,4 +18,8 @@ public abstract class Scene extends MouseAdapter {
     }
 
     public abstract void mousePressed(MouseEvent e);
+
+    public void mouseMoved(MouseEvent e) {
+        System.out.println(e.getX() + ", " + e.getY());
+    }
 }

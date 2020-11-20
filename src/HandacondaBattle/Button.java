@@ -11,44 +11,64 @@ import java.nio.file.Path;
 public class Button extends GameObject {
 
     private BufferedImage sprite;
+    private BufferedImage selectSprite;
+    private BufferedImage activeSprite;
     private File spritePath;
 
-    public Button(int x, int y, ID id, Game game, String image) throws IOException {
+    int xSpeed;
+    boolean selectedFrame;
+
+    public Button(int x, int y, int xSpeed, ID id, Game game, String image, boolean selectedFrame) throws IOException {
         super(x, y, id, game);
+        this.xSpeed = xSpeed;
+        this.selectedFrame = selectedFrame;
 
         Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
-        spritePath = new File(path + "/sprites/" + image + ".png");
-        sprite = ImageIO.read(spritePath);
+        if (selectedFrame) {
+            spritePath = new File(path + "/sprites/" + image + " Unselected.png");
+            sprite = ImageIO.read(spritePath);
+            activeSprite = ImageIO.read(spritePath);
+            spritePath = new File(path + "/sprites/" + image + " selected.png");
+            selectSprite = ImageIO.read(spritePath);
+        } else {
+            spritePath = new File(path + "/sprites/" + image + ".png");
+            activeSprite = ImageIO.read(spritePath);
+        }
 
         center();
+        game.handler.addObject(this);
     }
 
     public  void center() {
-        x = x - sprite.getWidth() / 2;
-        y = y - sprite.getHeight() / 2;
+        x = x - activeSprite.getWidth() / 2;
+        y = y - activeSprite.getHeight() / 2;
     }
 
     public void tick() {
-        x += 1;
+        if (id == ID.SLIDE) {
+            x += xSpeed;
 
-        if (x >= game.width + sprite.getWidth()) {
-            x = 0 - sprite.getWidth();
-            y += 5;
-            if (y >= game.height + (sprite.getHeight() / 2)) {
-                y = -sprite.getHeight() / 2 + 10;
+            if (x >= game.width + activeSprite.getWidth()) {
+                x = 0 - activeSprite.getWidth();
+                /*y += 5;
+                if (y >= game.height + (sprite.getHeight() / 2)) {
+                    y = -sprite.getHeight() / 2 + 10;
+                }*/
+            }
+        }
+
+        if (selectedFrame) {
+            if (!mouseOver(game.mouse.getX(), game.mouse.getY())) {
+                activeSprite = sprite;
+            } else {
+                activeSprite = selectSprite;
             }
         }
     }
 
 
     public void render(Graphics g) {
-        g.setColor(Color.gray);
-        g.drawRect(x, y, sprite.getWidth(), sprite.getHeight());
-        g.drawImage(sprite, x, y, sprite.getWidth(), sprite.getHeight(), null);
-    }
-
-    public void press() {
-        System.out.println("I have been pressed");
+        g.drawImage(activeSprite, x, y, activeSprite.getWidth(), activeSprite.getHeight(), null);
     }
 
     public boolean mouseOver(int x, int y) {
@@ -56,10 +76,10 @@ public class Button extends GameObject {
     }
 
     public int getWidth() {
-        return sprite.getWidth();
+        return activeSprite.getWidth();
     }
 
     public int getHeight() {
-        return sprite.getHeight();
+        return activeSprite.getHeight();
     }
 }

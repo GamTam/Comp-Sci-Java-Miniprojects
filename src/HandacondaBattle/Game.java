@@ -20,21 +20,30 @@ public class Game extends Canvas implements Runnable {
 
     public Handler handler;
     private Random random;
-    public Soundtrack soundtrack = new Soundtrack("Snif City", "king bowser", "victory SS", "darkness falls", this);
+    public Soundtrack soundtrack = new Soundtrack("Snif City", "origami king boss", "victory SS", "darkness falls", "stabby stabby souls", this);
 
     public SCENE scene = SCENE.MainMenu;
     public SCENE prevScene = SCENE.MainMenu;
+    public boolean loaded = false;
+
+    public MouseListener mouse;
+
+    public Window window = new Window(width, height, "Super Roshambo", this);
 
     public SCENE getID() {
         return scene;
     }
 
-    public Game() throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
+    public Game() throws IOException, LineUnavailableException, UnsupportedAudioFileException, FontFormatException {
         handler = new Handler();
         random = new Random();
 
+        handler.addObject(soundtrack);
+        mouse = new MouseListener(this);
         this.addKeyListener(new KeyInput(handler));
-        new Window(width, height, "Handaconda Battle", this);
+        SceneTransition t = new SceneTransition(SCENE.MainMenu, this);
+        t.setX(-60);
+        handler.addObject(t);
         new MainMenu(this, handler, SCENE.MainMenu);
     }
 
@@ -86,18 +95,19 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
+    private void tick() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException, FontFormatException {
         if (scene != prevScene) {
             prevScene = scene;
+            handler.clearAll();
 
             if (scene == SCENE.MainMenu) {
                 new MainMenu(this, handler, SCENE.MainMenu);
+            } else if (scene == SCENE.CharSelect) {
+                new CharSelect(this, handler, SCENE.CharSelect);
             }
         }
 
-        if (scene == SCENE.MainMenu) {
-            handler.tick();
-        }
+        handler.tick();
     }
 
     private void render() {
@@ -109,11 +119,7 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
 
-        if (scene == SCENE.MainMenu) {
-            g.setColor(Color.black);
-        } else if (scene == SCENE.CharSelect) {
-            g.setColor(Color.white);
-        }
+        g.setColor(Color.black);
 
         g.fillRect(0, 0, width, height);
         handler.render(g);
@@ -122,7 +128,7 @@ public class Game extends Canvas implements Runnable {
         bs.show();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
+    public static void main(String[] args) throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException, FontFormatException {
         new Game();
     }
 }
