@@ -7,33 +7,146 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+// The Character select screen
 public class CharSelect extends Scene {
+    Button random;
+    Button mario;
     Button luigi;
+    Button fawful;
+    Button toadette;
+    Button sans;
+    Button shyGuy;
+
+    Button back;
+
+    Button easy;
+    Button normal;
+    Button hard;
+
+    Button start;
+
+    Button playerChar = null;
+    Button difficulty = null;
 
     public CharSelect(Game game, Handler handler, SCENE scene) throws IOException {
         super(game, handler, scene);
+        Sound snd = new Sound("choosefighter");
 
-        this.game.addMouseListener(this);
         game.loaded = false;
 
-        luigi = new Button(game.width / 2, game.height / 2, 5, ID.SLIDE, game,"bleck", false);
-        game.handler.addObject(luigi);
 
-        game.soundtrack.play("game heavy");
+
+        // Loads all of the objects into the scene
+        new BG(this.game, "charselect bg", true, true);
+
+        random =   new Button(400, 196, 0, ID.BUTTON, this.game, "charselect/random", true);
+
+        mario =    new Button(400, 91, 0, ID.BUTTON, this.game, "charselect/mario", true);
+        luigi =    new Button(185, 91, 0, ID.BUTTON, this.game, "charselect/luigi", true);
+        fawful =   new Button(615, 91, 0, ID.BUTTON, this.game, "charselect/fawful", true);
+
+        toadette = new Button(185, 301, 0, ID.BUTTON, this.game, "charselect/toadette", true);
+        sans =     new Button(400, 301, 0, ID.BUTTON, this.game, "charselect/sans", true);
+        shyGuy =   new Button(615, 301, 0, ID.BUTTON, this.game, "charselect/shy guy", true);
+
+        back =     new Button(127, 565, 0, ID.BUTTON, this.game, "charselect/back", true);
+
+        easy = new Button(616, 425, 0, ID.BUTTON, this.game, "charselect/easy", true);
+        normal = new Button(616, 491, 0, ID.BUTTON, this.game, "charselect/normal", true);
+        hard = new Button(616, 557, 0, ID.BUTTON, this.game, "charselect/hard", true);
+
+        start = new Button(-125, 443, 10, ID.BUTTON, this.game, "charselect/begin", true);
+
+        this.game.addMouseListener(this);
         game.loaded = true;
+        snd.play();
     }
 
+    // Checks when the mouse is clicked
     public void mousePressed(MouseEvent e) {
         int key = e.getButton();
         int x = e.getX();
         int y = e.getY();
 
         if (key == MouseEvent.BUTTON1) {
-            if (luigi.mouseOver(x, y)) {
+            if (playerChar != null) {
+                playerChar.selected = false;
+            }
+
+            if (difficulty != null) {
+                difficulty.selected = false;
+            }
+
+            if (back.mouseOver(x, y)) {
                 this.game.removeMouseListener(this);
                 game.handler.addObject(new SceneTransition(SCENE.MainMenu, game));
+            } else if (mario.mouseOver(x, y)) {
+                playerChar = mario;
+            } else if (luigi.mouseOver(x, y)) {
+                playerChar = luigi;
+            } else if (fawful.mouseOver(x, y)) {
+                playerChar = fawful;
+            } else if (toadette.mouseOver(x, y)) {
+                playerChar = toadette;
+            } else if (sans.mouseOver(x, y)) {
+                playerChar = sans;
+            } else if (shyGuy.mouseOver(x, y)) {
+                playerChar = shyGuy;
+            } else if (random.mouseOver(x, y)) {
+                playerChar = random;
+            } else if (easy.mouseOver(x, y)) {
+                difficulty = easy;
+            } else if (normal.mouseOver(x, y)) {
+                difficulty = normal;
+            } else if (hard.mouseOver(x, y)) {
+                difficulty = hard;
+            } else if (start != null) {
+                if (start.mouseOver(x, y)) {
+                    game.difficulty = difficulty.name;
+
+                    if (playerChar.name.equalsIgnoreCase("random")) {
+                        int num = game.random.nextInt(6);
+
+                        if (num == 1) {
+                            game.playerChar = "Mario";
+                        } else if (num == 2) {
+                            game.playerChar = "Luigi";
+                        } else if (num == 3) {
+                            game.playerChar = "Fawful";
+                        } else if (num == 4) {
+                            game.playerChar = "Shy Guy";
+                        } else if (num == 5) {
+                            game.playerChar = "Sans";
+                        } else {
+                            game.playerChar = "Toadette";
+                        }
+                    } else {
+                        game.playerChar = playerChar.name;
+                    }
+
+                    this.game.removeMouseListener(this);
+                    game.soundtrack.fadeOutAll();
+                    game.handler.addObject(new SceneTransition(SCENE.Game, game));
+                }
             }
+        }
+
+        if (playerChar != null) {
+            playerChar.selected = true;
+        }
+
+        if (difficulty != null) {
+            difficulty.selected = true;
+        }
+
+        if (playerChar != null && difficulty != null) {
+            assert start != null;
+            start.goToPoint(189, 443);
         }
     }
 
+    public void mouseExited(MouseEvent e) {
+        game.mouse.x = -100;
+        game.mouse.y = -100;
+    }
 }

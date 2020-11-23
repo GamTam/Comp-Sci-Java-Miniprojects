@@ -5,5 +5,8 @@ public enum ID {
     BUTTON,
     SOUNDTRACK,
     TRANS,
-    SLIDE
+    SLIDE,
+    BATTLEBACK,
+    BATTLECHAR,
+    CARDREVEAL
 }

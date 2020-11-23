@@ -7,16 +7,12 @@ import java.nio.file.Path;
 
 public class Sound {
     // Variable Init
-    static String sound;
+    public String sound;
 
-    static Clip clip;
+    public Clip clip;
 
-    public static void play() {
-        if (clip != null) {
-            if (clip.isActive()) {
-                clip.stop();
-            }
-        }
+    public Sound(String sound) {
+        this.sound = sound;
 
         try {
             // Locate file
@@ -29,15 +25,16 @@ public class Sound {
             DataLine.Info info = new DataLine.Info(Clip.class, format);
             clip = (Clip)AudioSystem.getLine(info);
             clip.open(inputStream);
-            clip.start();
-
-            long i = 0;
-
-            while (!clip.isActive()) {
-                i++;
-            }
         } catch (Exception e) {
             System.err.println("Sans Undertale");
+        }
+    }
+
+    public void play() {
+        clip.start();
+        int i = 0;
+        while (!clip.isActive()) {
+            i++;
         }
     }
 }

@@ -8,8 +8,9 @@ public class SceneTransition extends GameObject {
 
     SCENE scene;
     int speed = 30;
-    int time = 0;
+    public int time = 0;
     int maxTime = 150;
+    int time2 = 0;
     int width;
     int height;
 
@@ -19,7 +20,6 @@ public class SceneTransition extends GameObject {
         x = (int) -(game.width * 1.5);
         width = (int) (game.width * 1.5);
         height = game.height;
-        game.soundtrack.fadeOutAll();
     }
 
     public void tick() {
@@ -33,9 +33,12 @@ public class SceneTransition extends GameObject {
         }
 
         if (game.scene == scene && time > maxTime && game.loaded) {
-            x += speed;
-            if (x >= game.width + 30) {
-                game.handler.removeObject(this);
+            time2 += 1;
+            if (time2 > 60) {
+                x += speed;
+                if (x >= game.width + 30) {
+                    game.handler.removeObject(this);
+                }
             }
         }
     }

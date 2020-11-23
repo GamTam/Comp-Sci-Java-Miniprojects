@@ -11,9 +11,18 @@ import java.nio.file.Path;
 public class BG extends GameObject  {
 
     BufferedImage image;
+    boolean travel;
+    boolean up;
 
-    public BG(Game game, String image) throws IOException {
+    public BG(Game game, String image, boolean travel, boolean up) throws IOException {
         super(0, 0, ID.BG, game);
+
+        if (!up && travel) {
+            y = -game.getHeight();
+        }
+
+        this.travel = travel;
+        this.up = up;
 
         Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
         File file = new File(path + "/sprites/backgrounds/" + image + ".png");
@@ -22,7 +31,21 @@ public class BG extends GameObject  {
     }
 
     public void tick() {
-        //
+        if (travel) {
+            if (!up) {
+                y += 1;
+
+                if (y >= -20) {
+                    y -= game.getHeight() * 2;
+                }
+            } else {
+                y -= 1;
+
+                if (y <= -game.getHeight() * 2) {
+                    y += game.getHeight() * 2;
+                }
+            }
+        }
     }
 
     public void render(Graphics g) {

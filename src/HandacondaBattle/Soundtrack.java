@@ -9,7 +9,7 @@ import java.util.Hashtable;
 public class Soundtrack extends GameObject{
     private Hashtable<String, Song> soundtrack = new Hashtable<>();
 
-    private boolean fadeOut = false;
+    private boolean heavy = true;
 
     public Soundtrack(String menu, String gameplay, String win, String lose, String secret, Game game) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         super(0, 0, ID.SOUNDTRACK, game);
@@ -18,23 +18,49 @@ public class Soundtrack extends GameObject{
         soundtrack.put("secret", new Song(secret));
         soundtrack.put("win", new Song(win));
         soundtrack.put("lose", new Song(lose));
-        soundtrack.put("game heavy", new Song(gameplay));
-        soundtrack.put("game light", new Song(gameplay + " Thinking"));
+        soundtrack.put("game", new Song(gameplay));
 
         soundtrack.put("mario", new Song("musee"));
         soundtrack.put("luigi", new Song("brobot battle"));
         soundtrack.put("shy guy", new Song("snifit or whiffit"));
         soundtrack.put("fawful", new Song("fawful is there"));
+        soundtrack.put("fawful 2", new Song("grand finale"));
         soundtrack.put("sans", new Song("megalovania"));
         soundtrack.put("toadette", new Song("where's toad"));
     }
 
     public void play(String song) {
         for (String s : soundtrack.keySet()) {
-            soundtrack.get(s).stop();
+            if (!s.equalsIgnoreCase(song)) soundtrack.get(s).stop();
         }
 
         soundtrack.get(song).play();
+    }
+
+    public void randomGameSong() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        int num = game.random.nextInt(10);
+
+        if (num == 1) {
+            soundtrack.put("game", new Song("King Bowser"));
+        } else if (num == 2) {
+            soundtrack.put("game", new Song("scissors"));
+        } else if (num == 3) {
+            soundtrack.put("game", new Song("final bowser g1"));
+        } else if (num == 4) {
+            soundtrack.put("game", new Song("grand finale"));
+        } else if (num == 5) {
+            soundtrack.put("game", new Song("the fanged fastener"));
+        } else if (num == 6) {
+            soundtrack.put("game", new Song("ASGORE"));
+        } else if (num == 7) {
+            soundtrack.put("game", new Song("MEGALOVANIA Orchestra"));
+        } else if (num == 8) {
+            soundtrack.put("game", new Song("final bowser g2"));
+        } else if (num == 9) {
+            soundtrack.put("game", new Song("cs miniboss"));
+        } else {
+            soundtrack.put("game", new Song("Origami King Boss"));
+        }
     }
 
     public void fadeOutAll() {
@@ -43,30 +69,18 @@ public class Soundtrack extends GameObject{
         }
     }
 
-    @Override
-    public void tick() {
-    }
-
-    public void swapHeavy() {
-        String song = "";
-
+    public String getsongPlaying() {
         for (String s : soundtrack.keySet()) {
             if (soundtrack.get(s).clip.isActive()) {
-                song = s;
+                return s;
             }
         }
 
-        if (song.equalsIgnoreCase("game heavy")) {
-            soundtrack.get("game light").clip.setFramePosition(soundtrack.get("game heavy").clip.getFramePosition());
-            soundtrack.get("game light").fadeIn();
-            soundtrack.get("game heavy").fadeOut();
-        } else if (song.equalsIgnoreCase("game light")) {
-            soundtrack.get("game heavy").clip.setFramePosition(soundtrack.get("game light").clip.getFramePosition());
-            soundtrack.get("game heavy").fadeIn();
-            soundtrack.get("game light").fadeOut();
-        } else if (song.equalsIgnoreCase("")){
-            play("game light");
-        }
+        return null;
+    }
+
+    @Override
+    public void tick() {
     }
 
     @Override

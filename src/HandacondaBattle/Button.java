@@ -15,13 +15,27 @@ public class Button extends GameObject {
     private BufferedImage activeSprite;
     private File spritePath;
 
-    int xSpeed;
+    double speed;
     boolean selectedFrame;
 
-    public Button(int x, int y, int xSpeed, ID id, Game game, String image, boolean selectedFrame) throws IOException {
+    public int xDest;
+    public int yDest;
+
+    double deltaX;
+    double deltaY;
+    double dir;
+
+    public String name;
+
+    public boolean selected = false;
+
+    public Button(int x, int y, int speed, ID id, Game game, String image, boolean selectedFrame) throws IOException {
         super(x, y, id, game);
-        this.xSpeed = xSpeed;
+        xDest = this.x;
+        yDest = this.y;
+        this.speed = speed;
         this.selectedFrame = selectedFrame;
+        this.name = image.replace("charselect/", "");
 
         Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
         if (selectedFrame) {
@@ -39,31 +53,60 @@ public class Button extends GameObject {
         game.handler.addObject(this);
     }
 
-    public  void center() {
+    public void center() {
         x = x - activeSprite.getWidth() / 2;
         y = y - activeSprite.getHeight() / 2;
     }
 
+    public  void unCenter() {
+        x = x + activeSprite.getWidth() / 2;
+        y = y + activeSprite.getHeight() / 2;
+    }
+
     public void tick() {
-        if (id == ID.SLIDE) {
-            x += xSpeed;
-
-            if (x >= game.width + activeSprite.getWidth()) {
-                x = 0 - activeSprite.getWidth();
-                /*y += 5;
-                if (y >= game.height + (sprite.getHeight() / 2)) {
-                    y = -sprite.getHeight() / 2 + 10;
-                }*/
-            }
-        }
-
         if (selectedFrame) {
-            if (!mouseOver(game.mouse.getX(), game.mouse.getY())) {
-                activeSprite = sprite;
-            } else {
+            if (mouseOver(game.mouse.getX(), game.mouse.getY()) || selected) {
                 activeSprite = selectSprite;
+            } else {
+                activeSprite = sprite;
             }
         }
+
+        unCenter();
+
+        if (!inRange(x, xDest)) {
+            x = (int) (x + (speed * Math.cos(dir)));
+        } else {
+            x = xDest;
+        }
+
+        if (!inRange(y, yDest)) {
+            y = (int) (y + (speed * Math.sin(dir)));
+        } else {
+            y = yDest;
+        }
+
+        center();
+}
+
+    public void goToPoint(int x, int y) {
+            xDest = x;
+            yDest = y;
+
+            deltaX = xDest - this.x;
+            deltaY = yDest - this.y;
+
+            dir = Math.atan(deltaY / deltaX);
+    }
+
+    public boolean inRange(int current, int dest) {
+        boolean t = false;
+
+        if (current <= dest + speed && current >= dest - speed) {
+            t = true;
+        }
+
+        return t;
     }
 
 

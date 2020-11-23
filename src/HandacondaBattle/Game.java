@@ -7,17 +7,18 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
 
-    public static final int width = 800, height = width / 12 * 9;
+    public static final int width = 815, height = (int) (width / 12 * 9.5);
 
     private Thread thread;
     private boolean running = false;
 
     public Handler handler;
-    private Random random;
+    public Random random;
     public Soundtrack soundtrack = new Soundtrack("snif city", "origami king boss", "victory SS", "darkness falls", "stabby stabby souls", this);
 
     public SCENE scene = SCENE.MainMenu;
@@ -28,20 +29,26 @@ public class Game extends Canvas implements Runnable {
 
     public Window window = new Window(width, height, "Super Roshambo", this);
 
+    public Battle battle;
+
+    public String playerChar;
+    public String opponentChar;
+    public String difficulty;
+
     public SCENE getID() {
         return scene;
     }
 
     public Game() throws IOException, LineUnavailableException, UnsupportedAudioFileException, FontFormatException {
-        handler = new Handler();
+        handler = new Handler(this);
         random = new Random();
 
         handler.addObject(soundtrack);
         mouse = new MouseListener(this);
-        this.addKeyListener(new KeyInput(handler));
         SceneTransition t = new SceneTransition(SCENE.MainMenu, this);
         t.setX(-60);
         handler.addObject(t);
+        soundtrack.play("title");
         new MainMenu(this, handler, SCENE.MainMenu);
     }
 
@@ -72,13 +79,17 @@ public class Game extends Canvas implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
 
-            while (delta >= 1) {
+            while (delta >= 1 && delta <= 50) {
                 try {
                     tick();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 delta--;
+            }
+
+            while (delta >= 1) {
+                delta --;
             }
 
             if (running) {
@@ -93,7 +104,7 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() throws IOException, FontFormatException {
+    private void tick() throws IOException, FontFormatException, LineUnavailableException, UnsupportedAudioFileException {
         if (scene != prevScene) {
             prevScene = scene;
             handler.clearAll();
@@ -102,6 +113,26 @@ public class Game extends Canvas implements Runnable {
                 new MainMenu(this, handler, SCENE.MainMenu);
             } else if (scene == SCENE.CharSelect) {
                 new CharSelect(this, handler, SCENE.CharSelect);
+            } else if (scene == SCENE.Game) {
+                do {
+                    int num = random.nextInt(6);
+
+                    if (num == 1) {
+                        opponentChar = "Mario";
+                    } else if (num == 2) {
+                        opponentChar = "Luigi";
+                    } else if (num == 3) {
+                        opponentChar = "Fawful";
+                    } else if (num == 4) {
+                        opponentChar = "Shy Guy";
+                    } else if (num == 5) {
+                        opponentChar = "Sans";
+                    } else {
+                        opponentChar = "Toadette";
+                    }
+                } while (opponentChar.equalsIgnoreCase(playerChar));
+
+                battle = new Battle(this, handler, SCENE.Game);
             }
         }
 

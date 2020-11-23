@@ -4,6 +4,7 @@ import HandacondaBattle.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public abstract class Scene extends MouseAdapter {
 
