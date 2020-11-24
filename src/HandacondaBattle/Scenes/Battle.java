@@ -57,6 +57,7 @@ public class Battle extends Scene {
         game.soundtrack.play("game");
         heavy = true;
         start.play();
+        game.writeStats();
         game.loaded = true;
     }
 
@@ -228,14 +229,19 @@ public class Battle extends Scene {
                     }
                 } else if (step == 6) {
                     if (player.hp <= 0 || enemy.hp <= 0) {
-                        timer = 300;
+                        timer = 240;
                         Sound snd;
                         if (player.hp <= 0) {
                             snd = new Sound("defeat");
+                            new WinText(this.game, "defeat");
+                            game.gamesLost += 1;
                         } else {
                             snd = new Sound("victory");
+                            new WinText(this.game, "victory");
+                            game.gamesWon += 1;
                         }
                         snd.play();
+                        game.writeStats();
                     }
 
                     step += 1;

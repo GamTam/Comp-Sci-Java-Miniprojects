@@ -41,8 +41,8 @@ public class CharSelect extends Scene {
 
         random =   new Button(400, 196, 0, ID.BUTTON, this.game, "charselect/random", true);
 
-        mario =    new Button(400, 91, 0, ID.BUTTON, this.game, "charselect/mario", true);
-        luigi =    new Button(185, 91, 0, ID.BUTTON, this.game, "charselect/luigi", true);
+        mario =    new Button(185, 91, 0, ID.BUTTON, this.game, "charselect/mario", true);
+        luigi =    new Button(400, 91, 0, ID.BUTTON, this.game, "charselect/luigi", true);
         fawful =   new Button(615, 91, 0, ID.BUTTON, this.game, "charselect/fawful", true);
 
         toadette = new Button(185, 301, 0, ID.BUTTON, this.game, "charselect/toadette", true);
@@ -109,20 +109,50 @@ public class CharSelect extends Scene {
 
                         if (num == 1) {
                             game.playerChar = "Mario";
+                            game.marioTimes += 1;
                         } else if (num == 2) {
                             game.playerChar = "Luigi";
+                            game.luigiTimes += 1;
                         } else if (num == 3) {
                             game.playerChar = "Fawful";
+                            game.fawfulTimes += 1;
                         } else if (num == 4) {
                             game.playerChar = "Shy Guy";
+                            game.shyGuyTimes += 1;
                         } else if (num == 5) {
                             game.playerChar = "Sans";
+                            game.sansTimes += 1;
                         } else {
                             game.playerChar = "Toadette";
+                            game.toadetteTimes += 1;
                         }
                     } else {
                         game.playerChar = playerChar.name;
                     }
+
+                    if (playerChar.name.equalsIgnoreCase("mario")) {
+                        game.marioTimes += 1;
+                    } else if (playerChar.name.equalsIgnoreCase("luigi")) {
+                        game.luigiTimes += 1;
+                    } else if (playerChar.name.equalsIgnoreCase("fawful")) {
+                        game.fawfulTimes += 1;
+                    } else if (playerChar.name.equalsIgnoreCase("shy guy")) {
+                        game.shyGuyTimes += 1;
+                    } else if (playerChar.name.equalsIgnoreCase("sans")) {
+                        game.sansTimes += 1;
+                    } else if (playerChar.name.equalsIgnoreCase("toadette")) {
+                        game.toadetteTimes += 1;
+                    }
+
+                    if (difficulty.name.equalsIgnoreCase("easy")) {
+                        game.easyTimes += 1;
+                    } else if (difficulty.name.equalsIgnoreCase("normal")) {
+                        game.normalTimes += 1;
+                    } else if (difficulty.name.equalsIgnoreCase("hard")) {
+                        game.hardTimes += 1;
+                    }
+
+                    game.games += 1;
 
                     this.game.removeMouseListener(this);
                     game.soundtrack.fadeOutAll();

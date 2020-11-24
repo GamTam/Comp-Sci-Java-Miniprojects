@@ -17,6 +17,7 @@ public class MainMenu extends Scene {
 
     Button titleScreen;
     Button playButton;
+    Button stats;
 
     public MainMenu(Game game, Handler handler, SCENE scene) throws IOException, FontFormatException {
         super(game, handler, scene);
@@ -36,7 +37,8 @@ public class MainMenu extends Scene {
         toadette = new TitleScreenChars((((game.getWidth() + 100) / 5) * 5), game.getHeight() / 2, 2, ID.SLIDE, game,"toadette/title screen", 60, true);
 
         titleScreen = new Button(game.getWidth() / 2, 75, 0, ID.BUTTON, game,"Title Screen", false);
-        playButton = new Button(game.getWidth() / 2, game.getHeight() - 125, 0, ID.BUTTON, game,"Play Game", true);
+        playButton = new Button(game.getWidth() / 4, game.getHeight() - 125, 0, ID.BUTTON, game,"Play Game", true);
+        stats = new Button((game.getWidth() / 4) * 3, game.getHeight() - 125, 0, ID.BUTTON, game,"View Stats", true);
 
         game.loaded = true;
         game.addMouseListener(this);
@@ -94,6 +96,10 @@ public class MainMenu extends Scene {
                 } else {
                     game.soundtrack.play("title");
                 }
+            } else if (stats.mouseOver(x, y)) {
+                this.game.removeMouseListener(this);
+                game.handler.clearTrans();
+                game.handler.addObject(new SceneTransition(SCENE.Stats, game));
             }
         }
     }

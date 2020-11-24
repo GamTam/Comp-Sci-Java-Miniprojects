@@ -6,7 +6,9 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.SQLOutput;
 import java.util.Random;
 
@@ -35,11 +37,26 @@ public class Game extends Canvas implements Runnable {
     public String opponentChar;
     public String difficulty;
 
+    public int games = 0;
+    public int gamesWon = 0;
+    public int gamesLost = 0;
+    public int easyTimes = 0;
+    public int normalTimes = 0;
+    public int hardTimes = 0;
+
+    public int marioTimes = 0;
+    public int luigiTimes = 0;
+    public int fawfulTimes = 0;
+    public int toadetteTimes = 0;
+    public int sansTimes = 0;
+    public int shyGuyTimes = 0;
+
     public SCENE getID() {
         return scene;
     }
 
     public Game() throws IOException, LineUnavailableException, UnsupportedAudioFileException, FontFormatException {
+        loadStats();
         handler = new Handler(this);
         random = new Random();
 
@@ -113,6 +130,8 @@ public class Game extends Canvas implements Runnable {
                 new MainMenu(this, handler, SCENE.MainMenu);
             } else if (scene == SCENE.CharSelect) {
                 new CharSelect(this, handler, SCENE.CharSelect);
+            } else if (scene == SCENE.Stats) {
+                new StatsScene(this, handler);
             } else if (scene == SCENE.Game) {
                 do {
                     int num = random.nextInt(6);
@@ -155,6 +174,54 @@ public class Game extends Canvas implements Runnable {
 
         g.dispose();
         bs.show();
+    }
+
+    public void loadStats() throws IOException, NumberFormatException {
+        Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
+        File file = new File(path + "/stats.ini");
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+        games = Integer.parseInt(br.readLine());
+        gamesWon = Integer.parseInt(br.readLine());
+        gamesLost = Integer.parseInt(br.readLine());
+
+        easyTimes = Integer.parseInt(br.readLine());
+        normalTimes = Integer.parseInt(br.readLine());
+        hardTimes = Integer.parseInt(br.readLine());
+
+        marioTimes = Integer.parseInt(br.readLine());
+        luigiTimes = Integer.parseInt(br.readLine());
+        fawfulTimes = Integer.parseInt(br.readLine());
+        toadetteTimes = Integer.parseInt(br.readLine());
+        sansTimes = Integer.parseInt(br.readLine());
+        shyGuyTimes = Integer.parseInt(br.readLine());
+
+        br.close();
+    }
+
+    public void writeStats() throws IOException, NumberFormatException {
+        Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
+        File file = new File(path + "/stats.ini");
+
+        FileWriter writer = new FileWriter(file);
+
+        writer.write(games + "\n");
+        writer.write(gamesWon + "\n");
+        writer.write(gamesLost + "\n");
+
+        writer.write(easyTimes + "\n");
+        writer.write(normalTimes + "\n");
+        writer.write(hardTimes + "\n");
+
+        writer.write(marioTimes + "\n");
+        writer.write(luigiTimes + "\n");
+        writer.write(fawfulTimes + "\n");
+        writer.write(toadetteTimes + "\n");
+        writer.write(sansTimes + "\n");
+        writer.write(shyGuyTimes + "\n");
+
+        writer.close();
     }
 
     public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException, FontFormatException {

@@ -13,6 +13,7 @@ public class BattleChars extends GameObject{
 
     private LinkedList<BufferedImage> idle = new LinkedList<>();
     private LinkedList<BufferedImage> dead = new LinkedList<>();
+    private LinkedList<BufferedImage> win = new LinkedList<>();
     private BufferedImage hit;
 
     private BufferedImage activeSprite;
@@ -42,7 +43,7 @@ public class BattleChars extends GameObject{
 
         if (player) {
             x = 75;
-            maxHP = 1;
+            maxHP = 10;
             File spritePath = new File(path + "/sprites/" + skin + "/battle/idle");
             for (File sprite : spritePath.listFiles()) {
                 sprite = new File(path + "/sprites/" + skin + "/battle/idle/" + i + ".png");
@@ -62,7 +63,7 @@ public class BattleChars extends GameObject{
             spritePath = new File(path + "/sprites/" + skin + "/battle/win");
             for (File sprite : spritePath.listFiles()) {
                 sprite = new File(path + "/sprites/" + skin + "/battle/win/" + i + ".png");
-                dead.add(ImageIO.read(sprite));
+                win.add(ImageIO.read(sprite));
                 i += 1;
             }
 
@@ -91,7 +92,7 @@ public class BattleChars extends GameObject{
                 spritePath = new File(path + "/sprites/" + skin + "/enemy/win");
                 for (File sprite : spritePath.listFiles()) {
                     sprite = new File(path + "/sprites/" + skin + "/enemy/win/" + i + ".png");
-                    dead.add(ImageIO.read(sprite));
+                    win.add(ImageIO.read(sprite));
                     i += 1;
                 }
 
@@ -121,7 +122,7 @@ public class BattleChars extends GameObject{
                 spritePath = new File(path + "/sprites/" + skin + "/battle/win");
                 for (File sprite : spritePath.listFiles()) {
                     sprite = new File(path + "/sprites/" + skin + "/battle/win/" + i + ".png");
-                    dead.add(ImageIO.read(sprite));
+                    win.add(ImageIO.read(sprite));
                     i += 1;
                 }
 
@@ -182,6 +183,14 @@ public class BattleChars extends GameObject{
             animate(dead, true);
 
             activeSprite = dead.get(currentFrame);
+        } else if (state == PlayerState.Win) {
+            if (!checkActive(win, activeSprite)) {
+                currentFrame = 0;
+            }
+
+            animate(win, true);
+
+            activeSprite = win.get(currentFrame);
         }
 
     }

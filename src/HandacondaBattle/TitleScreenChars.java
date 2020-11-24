@@ -136,6 +136,18 @@ public class TitleScreenChars extends GameObject {
         int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
         int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
         g.setFont(font);
-        g.drawString(text, x, y);
+        g.drawString(capital(text), x, y);
+    }
+
+    public String capital(String str){
+        String[] word = str.split(" ");
+
+        String capital = "";
+        for(String w:word){
+            String first = w.substring(0,1);
+            String rest = w.substring(1);
+            capital += first.toUpperCase() + rest + " ";
+        }
+        return capital.trim();
     }
 }

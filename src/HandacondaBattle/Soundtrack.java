@@ -38,7 +38,7 @@ public class Soundtrack extends GameObject{
     }
 
     public void randomGameSong() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        int num = game.random.nextInt(10);
+        int num = game.random.nextInt(21);
 
         if (num == 1) {
             soundtrack.put("game", new Song("King Bowser"));
@@ -57,7 +57,29 @@ public class Soundtrack extends GameObject{
         } else if (num == 8) {
             soundtrack.put("game", new Song("final bowser g2"));
         } else if (num == 9) {
+            soundtrack.put("game", new Song("battle with king olly"));
+        } else if (num == 10) {
+            soundtrack.put("game", new Song("rose battle"));
+        } else if (num == 11) {
+            soundtrack.put("game", new Song("rumble with wendy"));
+        } else if (num == 12) {
+            soundtrack.put("game", new Song("I'm not nice"));
+        } else if (num == 13) {
+            soundtrack.put("game", new Song("bouldergeist"));
+        } else if (num == 14) {
+            soundtrack.put("game", new Song("the marvelous duo"));
+        } else if (num == 15) {
+            soundtrack.put("game", new Song("meta knight"));
+        } else if (num == 16) {
+            soundtrack.put("game", new Song("battle tower"));
+        } else if (num == 17) {
+            soundtrack.put("game", new Song("origami castle"));
+        } else if (num == 18) {
+            soundtrack.put("game", new Song("the galaxy reactor"));
+        } else if (num == 19) {
             soundtrack.put("game", new Song("cs miniboss"));
+        } else if (num == 20) {
+            soundtrack.put("game", new Song("black bowser castle"));
         } else {
             soundtrack.put("game", new Song("Origami King Boss"));
         }
